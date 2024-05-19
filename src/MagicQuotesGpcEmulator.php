@@ -8,25 +8,39 @@ class MagicQuotesGpcEmulator {
       return;
     }
 
-    $_GET = filter_var_array($_GET, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_POST = filter_var_array($_POST, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_COOKIE = filter_var_array($_COOKIE, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_REQUEST = filter_var_array($_REQUEST, FILTER_SANITIZE_MAGIC_QUOTES);
+    $this->addslashesRecursive($_GET);
+    $this->addslashesRecursive($_POST);
+    $this->addslashesRecursive($_COOKIE);
+    $this->addslashesRecursive($_REQUEST);
 
     define('MagicQuotesGpcEmulatorApplied', true);
   }
 
-  public function isApplied() {
-    return defined('MagicQuotesGpcEmulatorApplied');
-  }
+    private function addslashesRecursive(&$value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => &$item) {
+                $this->addslashesRecursive($item);
+            }
+        } elseif (is_object($value)) {
+            $value = get_object_vars($value);
+            $this->addslashesRecursive($value);
+        } else {
+            $value = addslashes($value);
+        }
+    }
 
-  public function isMagicQuotesGpcEnabled() {
-    if ($this->isApplied()) {
-      return true;
+    public function isApplied() {
+        return defined('MagicQuotesGpcEmulatorApplied');
     }
-    if (!function_exists('get_magic_quotes_gpc')) {
-      return false;
+
+    public function isMagicQuotesGpcEnabled() {
+        if ($this->isApplied()) {
+            return true;
+        }
+        if (!function_exists('get_magic_quotes_gpc')) {
+            return false;
+        }
+        return get_magic_quotes_gpc();
     }
-    return get_magic_quotes_gpc();
-  }
 }
