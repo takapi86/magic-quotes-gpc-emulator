@@ -35,6 +35,8 @@ class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
         "baz" => "ba\z",
         "qux" => "qu" . chr(0) . "x",
       ];
+
+      return null;
   }
 
   /**
