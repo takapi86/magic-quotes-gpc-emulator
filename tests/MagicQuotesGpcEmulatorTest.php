@@ -3,7 +3,7 @@
 require_once './vendor/autoload.php';
 
 class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
-  public function setUp(): void
+  public function setUp()
   {
       parent::setUp();
       ini_set('error_reporting', E_ALL & ~ E_DEPRECATED);
