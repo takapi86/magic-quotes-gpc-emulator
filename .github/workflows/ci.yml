@@ -8,11 +8,11 @@ jobs:
     name: Test
     strategy:
       matrix:
-        php-version: ['7.4']
+        php-version: ['8.1', '7.4', '5.4']
     runs-on: ubuntu-latest
     steps:
     - name: Check out source code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v2

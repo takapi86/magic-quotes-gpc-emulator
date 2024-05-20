@@ -8,12 +8,23 @@ class MagicQuotesGpcEmulator {
       return;
     }
 
-    $_GET = filter_var_array($_GET, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_POST = filter_var_array($_POST, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_COOKIE = filter_var_array($_COOKIE, FILTER_SANITIZE_MAGIC_QUOTES);
-    $_REQUEST = filter_var_array($_REQUEST, FILTER_SANITIZE_MAGIC_QUOTES);
+    $this->addslashesRecursive($_GET);
+    $this->addslashesRecursive($_POST);
+    $this->addslashesRecursive($_COOKIE);
+    $this->addslashesRecursive($_REQUEST);
 
     define('MagicQuotesGpcEmulatorApplied', true);
+  }
+
+  private function addslashesRecursive(&$value)
+  {
+    if (is_array($value)) {
+        foreach ($value as $key => &$item) {
+            $this->addslashesRecursive($item);
+        }
+    } else {
+        $value = addslashes($value);
+    }
   }
 
   public function isApplied() {
