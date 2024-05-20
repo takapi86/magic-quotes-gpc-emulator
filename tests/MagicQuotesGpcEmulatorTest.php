@@ -3,9 +3,8 @@
 require_once './vendor/autoload.php';
 
 class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
-  public function setUp()
+  public function initializeSuperGlobals()
   {
-      parent::setUp();
       ini_set('error_reporting', E_ALL & ~ E_DEPRECATED);
 
       $_GET = [
@@ -43,6 +42,7 @@ class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
   * @test
   */
   public function testBeforeApply() {
+    $this->initializeSuperGlobals();
     $emulator = new Takapi86\MagicQuotesGpcEmulator();
     $this->assertFalse($emulator->isApplied());
     $this->assertFalse($emulator->isMagicQuotesGpcEnabled());
@@ -52,6 +52,7 @@ class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
   * @test
   */
   public function testApply() {
+    $this->initializeSuperGlobals();
     $emulator = new Takapi86\MagicQuotesGpcEmulator();
     $emulator->apply();
 
@@ -100,6 +101,7 @@ class MagicQuotesGpcEmulatorTest extends PHPUnit\Framework\TestCase {
   * @test
   */
   public function testAfterApply() {
+    $this->initializeSuperGlobals();
     $emulator = new Takapi86\MagicQuotesGpcEmulator();
     $this->assertTrue($emulator->isApplied());
     $this->assertTrue($emulator->isMagicQuotesGpcEnabled());
