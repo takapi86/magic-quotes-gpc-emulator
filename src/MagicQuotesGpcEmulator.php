@@ -22,9 +22,6 @@ class MagicQuotesGpcEmulator {
         foreach ($value as $key => &$item) {
             $this->addslashesRecursive($item);
         }
-    } elseif (is_object($value)) {
-        $value = get_object_vars($value);
-        $this->addslashesRecursive($value);
     } else {
         $value = addslashes($value);
     }
